@@ -1,45 +1,33 @@
 package Festival;
 
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 public class Main {
 
   static int[] costs = null;
   static int least = 0;
+  static int days = 0;
 
 
 
   public static void main(String[] args) throws IOException {
 
-   
+
     Reader br = new Reader();
-    
+
     int caseCount = br.nextInt();
     StringBuilder sb = new StringBuilder();
 
     for(int i=0; i < caseCount; i++) {
-      int days = br.nextInt();
+      days = br.nextInt();
       least = br.nextInt();
       costs = new int[days];
       for( int s = 0; s < days; s++) {
         costs[s] = br.nextInt();
       }
-
-      double finalCost = 100;
-
-      for(int f=0; f < days; f++) {
-        double cost = 0;
-        if( f <= days-least) {
-          cost = find( f, 0, 1 );
-          if (cost < finalCost) {
-            finalCost = cost;
-          }
-        }
-      }
+      double finalCost = find();
       sb.append(finalCost);
       sb.append("\n");
     }
@@ -47,24 +35,22 @@ public class Main {
   }
 
 
-  private static double find( int costNum, double allCost, int count ) {
+  private static double find( ) {
 
-    if(costNum == costs.length)
-      return 100;
+    double finalCost = 100;
 
-    allCost = costs[costNum] + allCost;
+    for(int i=0; least<=days-i; i++) {
 
-    double leastCost = allCost/count;
+      int sum = 0;
 
-    costNum++;
-    count++;
+      for(int j=i; j<days; j++) {
 
-    double cost = find(costNum, allCost, count);
+        sum += costs[j];
 
-    if ( leastCost > cost || count-1 < least )
-      leastCost = cost;
-
-    return leastCost;
+        if( j-i+1 >= least && finalCost > (double)sum/(j-i+1)) {finalCost = (double)sum/(j-i+1);}
+      }
+    }
+    return finalCost;
   }
 
 
