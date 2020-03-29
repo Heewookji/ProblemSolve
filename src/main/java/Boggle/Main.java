@@ -8,10 +8,8 @@ import java.util.Scanner;
 public class Main {
 
   static char[][] boggle = null;
-  static int[][] eightWays = {
-      {0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1}
-  };
-  static Map<String, int[]> cache = new HashMap<String, int[]>();
+  static int[][] eightWays = {{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1}};
+  static Map<String, int[]> cache = null;
 
   public static void main(String[] args) throws IOException {
 
@@ -23,6 +21,8 @@ public class Main {
 
 
     for(int tc=0; tc < testCase; tc++) {
+      
+      cache = new HashMap<String, int[]>();
 
       for(int y=0; y<5; y++) {
         String line = keyboard.nextLine();
@@ -58,26 +58,27 @@ public class Main {
 
   private static boolean find(int x, int y, String keyword, int pos) {
 
-    int newX = 0;
-    int newY = 0;
-
     for(int i=0; i<8; i++) {
 
-      newX = x+eightWays[i][0];
-      newY = y+eightWays[i][1];
+      int newX = x+eightWays[i][0];
+      int newY = y+eightWays[i][1];
       int[] newXy = {newX,newY};
 
       if( newX < 0 || newX > 4 || newY < 0 || newY > 4) continue;
+      
       if(boggle[newX][newY] == keyword.charAt(pos)) {
 
         cache.put(x+","+y+","+keyword.charAt(pos), newXy);
 
         if(keyword.length() == pos+1) return true;
 
+        boolean cacheFlag = false;
+        
         while(true) {
           if(pos+1 == keyword.length()) return true;
           int[] cacheXY = cache.get(newX + "," + newY + "," + keyword.charAt(pos+1));
           if(cacheXY != null) {
+            cacheFlag = true;
             newX = cacheXY[0];
             newY = cacheXY[1];
             pos++;
@@ -86,10 +87,17 @@ public class Main {
           }
         }
 
-        if(find(newX,newY,keyword,pos+1)) return true;
+        if(cacheFlag) {
+          if(find(newX,newY,keyword,pos)) return true;
+        } else {
+          if(find(newX,newY,keyword,pos+1)) return true;
+        }
+        
 
       }
     }
     return false;
   }
 }
+
+
