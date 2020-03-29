@@ -2,102 +2,80 @@ package Boggle;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
 
-  static char[][] boggle = null;
-  static int[][] eightWays = {{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1}};
-  static Map<String, int[]> cache = null;
+  static int[] dx = {1,1,0,-1,-1,-1,0,1};
+  static int[] dy = {0,1,1,1,0,-1,-1,-1};
+  static char[][] boggle = new char[5][5];
+  static HashMap<String, Boolean> cache = null; 
+
 
   public static void main(String[] args) throws IOException {
 
     Scanner keyboard = new Scanner(System.in);
-
-    int testCase = keyboard.nextInt();
+    StringBuilder sb = new StringBuilder();
+    int caseNum = keyboard.nextInt();
     keyboard.nextLine();
-    boggle = new char[5][5];
 
+    for(int i=0; i<caseNum; i++) {
 
-    for(int tc=0; tc < testCase; tc++) {
-      
-      cache = new HashMap<String, int[]>();
-
+      cache = new HashMap<String,Boolean>();
       for(int y=0; y<5; y++) {
-        String line = keyboard.nextLine();
-        for(int x=0; x<5; x++) {
-          boggle[x][y] = line.charAt(x);
-        }
+        boggle[y] = keyboard.nextLine().toCharArray();
       }
 
-      int wordNumber = keyboard.nextInt();
+      int wordNum = keyboard.nextInt();
       keyboard.nextLine();
-      String[] keywords = new String[wordNumber];
+      String[] keywords = new String[wordNum];
 
-      for(int i=0; i<wordNumber; i++) {
-        keywords[i] = keyboard.nextLine();
+      for(int j=0;j<wordNum;j++) {
+        keywords[j] = keyboard.nextLine();
       }
 
-      for(int i=0; i<wordNumber; i++) {
+      for(int j=0;j<wordNum;j++) {
         boolean flag = false;
-        label:for(int y=0; y<5; y++) {
+        find: for(int y=0; y<5; y++) {
           for(int x=0; x<5; x++) {
-            if(boggle[x][y] == keywords[i].charAt(0)) {
-              flag = find(x,y,keywords[i],1);
-              if(flag) break label;
+            if(find(x,y,keywords[j])) {
+              flag = true;
+              break find;
             }
           }
         }
-        System.out.println(keywords[i]+" "+(flag? "YES":"NO"));
+        sb.append(keywords[j]+" "+(flag?"YES\n":"NO\n"));
       }
     }
+    System.out.print(sb);
     keyboard.close();
   }
 
+  private static boolean find(int x, int y, String keyword) {
 
-  private static boolean find(int x, int y, String keyword, int pos) {
+    if(x>4||x<0||y>4||y<0) return false;
+    if(boggle[x][y] != keyword.charAt(0)) return false;
+    if(keyword.length() == 1) return true;
 
-    for(int i=0; i<8; i++) {
+    for(int eightWay=0;eightWay<8;eightWay++) {
+      int nextX = x+dx[eightWay];
+      int nextY = y+dy[eightWay];
+      String nextKeyword = keyword.substring(1);
+      Boolean cacheFlag = cache.get(nextX+","+nextY+","+nextKeyword);
 
-      int newX = x+eightWays[i][0];
-      int newY = y+eightWays[i][1];
-      int[] newXy = {newX,newY};
+      if(cacheFlag != null && cacheFlag) {
+        return true;
+      } else if(cacheFlag != null && !cacheFlag) {
+        return false;
+      }
 
-      if( newX < 0 || newX > 4 || newY < 0 || newY > 4) continue;
-      
-      if(boggle[newX][newY] == keyword.charAt(pos)) {
-
-        cache.put(x+","+y+","+keyword.charAt(pos), newXy);
-
-        if(keyword.length() == pos+1) return true;
-
-        boolean cacheFlag = false;
-        
-        while(true) {
-          if(pos+1 == keyword.length()) return true;
-          int[] cacheXY = cache.get(newX + "," + newY + "," + keyword.charAt(pos+1));
-          if(cacheXY != null) {
-            cacheFlag = true;
-            newX = cacheXY[0];
-            newY = cacheXY[1];
-            pos++;
-          } else {
-            break;
-          }
-        }
-
-        if(cacheFlag) {
-          if(find(newX,newY,keyword,pos)) return true;
-        } else {
-          if(find(newX,newY,keyword,pos+1)) return true;
-        }
-        
-
+      if(find(nextX,nextY,nextKeyword)) {
+        cache.put(nextX+","+nextY+","+nextKeyword, true );
+        return true;
       }
     }
+    cache.put(x+","+y+","+keyword, false);
     return false;
   }
+
 }
-
-
