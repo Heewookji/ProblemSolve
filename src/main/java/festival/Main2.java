@@ -1,4 +1,4 @@
-package Festival;
+package festival;
 
 import java.util.Scanner;
 

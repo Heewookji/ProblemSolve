@@ -1,6 +1,6 @@
-package Etc;
+package etc;
 
-public class App {
+public class Festival {
 
   static int[] x = {-1,-1,0,1,1,1,0,-1};
   static int[] y = {0,1,1,1,0,-1,-1,-1};
@@ -16,7 +16,7 @@ public class App {
     puzzle[2][2] = "r";
     puzzle[0][1] = "w";
 
-    System.out.println(App.findWord(0,1,"war", puzzle));
+    System.out.println(Festival.findWord(0,1,"war", puzzle));
   }
 
 
@@ -36,7 +36,7 @@ public class App {
     System.out.println("find! "+word.substring(0, 1) +  "   x = " + x +"  y = "+ y);
 
     for(int i=0; i< 8; i++) {
-      if(App.findWord(x + App.x[i], y + App.y[i], word.substring(1), puzzle))
+      if(Festival.findWord(x + Festival.x[i], y + Festival.y[i], word.substring(1), puzzle))
         return true;
     }
     return false;
