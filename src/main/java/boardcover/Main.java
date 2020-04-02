@@ -43,8 +43,8 @@ public class Main {
   private static boolean set(int x, int y, int type, int isSet ) {
     boolean ok = true;
     for(int i=0; i<3; i++) {
-      int newX = x+types[type][i][0];
-      int newY = y+types[type][i][1];
+      int newY = y+types[type][i][0];
+      int newX = x+types[type][i][1];
       if(newX < 0 || newX >= xN || newY < 0 || newY >= yN) {
         ok = false;
       } else if((board[newY][newX] += isSet) > 1) {
