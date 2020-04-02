@@ -6,15 +6,17 @@ public class Main {
 
   static int xN;
   static int yN;
-  static boolean[][] board;
-  static int[][] dx = new int[8][2];
-  static int[][] dy = new int[8][2];
+  static int[][] board;
+  static int[][][] types = {
+      {{0,0},{1,0},{0,1}},
+      {{0,0},{0,1},{1,1}},
+      {{0,0},{1,0},{1,1}},
+      {{0,0},{1,0},{1,-1}}
+  };
 
   public static void main(String[] args) {
 
     Scanner sc = new Scanner(System.in);
-
-    init();
 
     int caseN = sc.nextInt();
 
@@ -24,97 +26,54 @@ public class Main {
       xN = sc.nextInt();
       sc.nextLine();
 
-      board = new boolean[yN][xN];
+      board = new int[yN][xN];
 
       for(int y=0; y<yN; y++ ){
         char[] chars = sc.nextLine().toCharArray();
         for( int i=0; i<chars.length; i++) {
-          board[y][i] = (chars[i] == '#'? true:false);
+          board[y][i] = (chars[i] == '#'? 1:0);
         }
       }
 
-      int sum = 0;
-
-      sum = find();
-
+      int sum = find();
       System.out.println(sum);
     }
-    sc.close();
   }
+
+  private static boolean set(int x, int y, int type, int isSet ) {
+    boolean ok = true;
+    for(int i=0; i<3; i++) {
+      int newX = x+types[type][i][0];
+      int newY = y+types[type][i][1];
+      if(newX < 0 || newX >= xN || newY < 0 || newY >= yN) {
+        ok = false;
+      } else if((board[newY][newX] += isSet) > 1) {
+        ok = false;
+      }
+    }
+    return ok;
+  }
+
 
   private static int find() {
 
-    int startX = -1;
-    int startY = -1;
-    for(int y=0; y<yN; y++) {
+    int flagX = -1, flagY = -1;
+    label: for(int y=0; y<yN; y++) {
       for(int x=0; x<xN; x++) {
-        if(!board[y][x]) {
-          startX = x; startY = y;
+        if(board[y][x] == 0) {
+          flagX = x; flagY = y; break label;
         }
       }
     }
-    if(startX == -1 && startY == -1) return 1;
+    if(flagX == -1 && flagY == -1) return 1;
 
     int sum = 0;
-
-    for(int i=0; i<8; i++){
-      sum += fill(startX,startY,i);
+    for(int i=0; i<4; i++) {
+      if(set(flagX,flagY, i, 1))
+        sum += find();
+      set(flagX,flagY, i, -1);
     }
-
     return sum;
-  }
-
-
-
-  private static int fill(int startX, int startY, int i) {
-
-    int oneNextX = startX + dx[i][0];
-    int oneNextY = startY + dy[i][0];
-
-    int twoNextX = startX + dx[i][1];
-    int twoNextY = startY + dy[i][1];
-    
-    int sum = 0;
-    if( oneNextX < 0 || oneNextY < 0 || twoNextX < 0 || twoNextY < 0 || 
-        oneNextX >= xN || oneNextY >= yN || twoNextX >= xN || twoNextY >= yN) return 0;
-    if(board[oneNextY][oneNextX] || board[twoNextY][twoNextX] ) return 0;
-    else {
-      board[oneNextY][oneNextX] = true;
-      board[twoNextY][twoNextX] = true;
-      sum += find();
-      board[oneNextY][oneNextX] = false;
-      board[twoNextY][twoNextX] = false;
-    }
-    
-    return sum;
-  }
-  
-  private static void init() {
-
-    dx[0][0] = 0; dx[0][1] = 1;
-    dy[0][0] = -1; dy[0][1] = -1;
-
-    dx[1][0] = 0; dx[1][1] = -1;
-    dy[1][0] = -1; dy[1][1] = -1;
-
-    dx[2][0] = -1; dx[2][1] = -1;
-    dy[2][0] = 0; dy[2][1] = -1;
-
-    dx[3][0] = -1; dx[3][1] = -1;
-    dy[3][0] = 0; dy[3][1] = 1;
-
-    dx[4][0] = 0; dx[4][1] = -1;
-    dy[4][0] = 1; dy[4][1] = 1;
-
-    dx[5][0] = 0; dx[5][1] = 1;
-    dy[5][0] = 1; dy[5][1] = 1;
-
-    dx[6][0] = 1; dx[6][1] = 1;
-    dy[6][0] = 0; dy[6][1] = 1;
-
-    dx[7][0] = 1; dx[7][1] = 1;
-    dy[7][0] = 0; dy[7][1] = -1;
-
   }
 
 
