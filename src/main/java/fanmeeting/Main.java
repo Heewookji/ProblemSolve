@@ -25,32 +25,23 @@ public class Main {
   }
 
   private static int solve() {
+    int N = mems.length(), M = fans.length();
+    int[] A = new int[N], B = new int[M];
+    for(int i=0; i<N; i++) A[i] = (mems.charAt(i) == 'M'? 1:0);
+    for(int i=0; i<M; i++) B[M-i-1] = (fans.charAt(i) == 'M'? 1:0);
 
+    int[] C = karatsuba(A,B);
     int sum = 0;
-
-    for(int i=0; i<fans.length(); i++) {
-
-      if( i < mems.length() -1 ) continue;
-      else if( i == mems.length() -1 ) {
-        if(find(fans.substring(0, mems.length()))) sum += 1;
-      } else {
-        int gap = i - (mems.length() -1);
-        if(find(fans.substring(gap, gap+mems.length()))) sum += 1; 
-      }
+    for(int i=N-1; i<M; i++) {
+      if(C[i] == 0) ++sum;
     }
     return sum;
   }
 
-  private static boolean find(String curFans) {
-    
-    for(int i=0; i<curFans.length(); i++) {
-      if(mems.charAt(i) == curFans.charAt(i) && mems.charAt(i) == 'M') {
-        return false;
-      }
-    }
-    return true;
+  private static int[] karatsuba(int[] a, int[] b) {
+    return null;
   }
-
 }
+
 
 
