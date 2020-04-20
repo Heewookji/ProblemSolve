@@ -1,4 +1,4 @@
-package clocksync;
+package clocksync05;
 
 import java.util.Scanner;
 

@@ -1,4 +1,4 @@
-package quadtree;
+package quadtree06;
 
 import java.util.Scanner;
 

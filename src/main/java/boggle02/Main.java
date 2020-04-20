@@ -1,4 +1,4 @@
-package boggle;
+package boggle02;
 
 import java.io.IOException;
 import java.util.Scanner;
