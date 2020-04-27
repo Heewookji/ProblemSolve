@@ -2,10 +2,9 @@ package asymtiling19;
 
 import java.util.Scanner;
 
-public class Main {
+public class Main2 {
   
   static int[] cache;
-  static int[] cache2;
   static int MOD = 1000000007;
   
   public static void main(String[] args) {
@@ -18,8 +17,9 @@ public class Main {
       
       int n = sc.nextInt();
       cache = new int[n+1];
-      cache2 = new int[n+1];
-      int ret = tiling(n);
+      int ret = find(n);
+      int min = tiling(n);
+      ret = (ret - min + MOD) % MOD;
       System.out.println(ret);
     }
   }
@@ -33,16 +33,11 @@ public class Main {
   }
   
   private static int tiling(int n) {
-    if(n <= 2) return 0;
-    if(cache2[n] != 0) return cache2[n];
-    
-    int ret = 0;
-    ret = (ret + tiling(n-2)) % MOD;
-    ret = (ret + tiling(n-4)) % MOD;
-    ret = (ret + find(n-3)) % MOD;
-    ret = (ret + find(n-3)) % MOD;
-    
-    return cache2[n] = ret;
+    if(n % 2 == 0) {
+      return (find(n/2) + find(n/2-1)) % MOD;
+    } else {
+      return find((n-1)/2);
+    }
   }
 
 }
