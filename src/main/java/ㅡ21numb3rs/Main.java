@@ -7,36 +7,44 @@ public class Main {
   private static int n;
   private static int[][] board;
   private static int[] deg;
-  private static int[] path;
+  private static int day;
   private static int jail;
   private static int town;
+  private static double[][] cache; 
 
   public static void main(String[] args) {
 
     Scanner sc = new Scanner(System.in);
     int testN = sc.nextInt();
-    int ret = 0;
     for(int i=0; i<testN; i++) {
       n = sc.nextInt();
-      int day = sc.nextInt();
+      day = sc.nextInt();
       jail = sc.nextInt();
       board = new int[n][n];
       deg = new int[n];
+      cache = new double[n][day+1];
       for(int y=0; y<n; y++) {
         for(int x=0; x<n; x++) board[y][x] = sc.nextInt();
       }
       int retN = sc.nextInt();
-      path = new int[day];
       set();
       for(int r=0; r<retN; r++) {
         town = sc.nextInt();
-        System.out.printf("%.8f ", find(path, day));
+        set2();
+        System.out.printf("%.8f ", find(jail, day));
       }
     }
   }
 
+  private static void set2() {
+    for(int y=0; y<cache.length; y++) {
+      for(int x=0; x<cache[y].length; x++) {
+        cache[y][x] = -1;
+      }
+    }
+  }
+  
   private static void set() {
-    
     for(int y=0; y<n; y++) {
       for(int x=0; x<n; x++) {
         if(board[y][x] == 1) {
@@ -46,25 +54,21 @@ public class Main {
     }
   }
 
-  private static double find(int[] path, int day) {
+  private static double find(int currentT, int leftD) {
 
-    double ret = 1;
-    
-    if(day == 0){
-      if(path[path.length-1] == town) {
-        for(int p:path) {
-          ret /= deg[p];
-        }
-        return ret;
-      } else return 0.0;
+    if(leftD == 0){
+      if(currentT == town) return 1; 
+      else return 0.0;
     }
     
-    ret = 0;
+    if(cache[currentT][leftD] != -1) return cache[currentT][leftD];
+    
+    double ret = 0;
     for(int i=0; i<n; i++) {
-      if(board[jail][i] == 1) {
-        ret += find(path, day-1);
+      if(board[currentT][i] == 1) {
+        ret += find(i, leftD-1)/deg[currentT];
       }
     }
-    return ret;
+    return cache[currentT][leftD] = ret;
   }
 }
