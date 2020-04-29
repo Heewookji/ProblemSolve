@@ -28,10 +28,10 @@ public class Main {
       }
       int retN = sc.nextInt();
       set();
+      set2();
       for(int r=0; r<retN; r++) {
         town = sc.nextInt();
-        set2();
-        System.out.printf("%.8f ", find(jail, day));
+        System.out.printf("%.8f ", find(town, day));
       }
     }
   }
@@ -54,21 +54,21 @@ public class Main {
     }
   }
 
-  private static double find(int currentT, int leftD) {
+  private static double find(int here, int days) {
 
-    if(leftD == 0){
-      if(currentT == town) return 1; 
+    if(days == 0){
+      if(here == jail) return 1.0; 
       else return 0.0;
     }
     
-    if(cache[currentT][leftD] != -1) return cache[currentT][leftD];
+    if(cache[here][days] != -1) return cache[here][days];
     
     double ret = 0;
-    for(int i=0; i<n; i++) {
-      if(board[currentT][i] == 1) {
-        ret += find(i, leftD-1)/deg[currentT];
+    for(int there=0; there<n; there++) {
+      if(board[here][there] == 1) {
+        ret += find(there, days-1)/deg[there];
       }
     }
-    return cache[currentT][leftD] = ret;
+    return cache[here][days] = ret;
   }
 }
