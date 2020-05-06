@@ -3,6 +3,9 @@ package ㅡ06quadtree;
 import java.util.Scanner;
 
 public class Main2 {
+  
+  static int point = 0;
+  static String line;
 
   public static void main(String[] args) {
 
@@ -12,13 +15,24 @@ public class Main2 {
     sc.nextLine();
 
     for(int t=0; t<testN; t++) {
-      String line = sc.nextLine();
-      System.out.println(find(line));
+      line = sc.nextLine();
+      point = 0;
+      System.out.println(find());
     }
   }
 
-  private static String find(String line) {
-    return null;  
+  private static String find() {
+    
+    char head = line.charAt(point);
+    point++;
+    if(head == 'w' || head == 'b') {
+      return String.valueOf(head);
+    }
+    String one = find();
+    String two = find();
+    String three = find();
+    String four = find();
+    return "x" + three + four + one + two;  
   }
 
 }
