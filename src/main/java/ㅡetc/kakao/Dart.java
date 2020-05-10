@@ -1,4 +1,4 @@
-package ㅡetc;
+package ㅡetc.kakao;
 
 import java.util.ArrayList;
 import java.util.Scanner;

@@ -1,8 +1,8 @@
-package ㅡetc;
+package ㅡetc.kakao;
 
 import java.util.ArrayList;
 
-public class Kakao2 {
+public class Prize {
 
   public static void main(String[] args) {
     System.out.println(solution("100-200*300-500+20"));

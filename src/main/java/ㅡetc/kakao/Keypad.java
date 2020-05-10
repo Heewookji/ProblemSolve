@@ -1,7 +1,7 @@
-package ㅡetc;
+package ㅡetc.kakao;
 
 
-public class Kakao1 {
+public class Keypad {
 
   static int[] numbers = {
       1,3,4,5,8,2,1,4,5,9,5

@@ -1,8 +1,8 @@
-package ㅡetc;
+package ㅡetc.kakao;
 
 import java.util.ArrayList;
 
-public class Kakao3 {
+public class Jewelry {
 
   public static void main(String[] args) {
 
