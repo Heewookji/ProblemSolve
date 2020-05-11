@@ -60,7 +60,7 @@ public class Prize {
           if(i == 0) ret1 = sum - numbers.get(i+1);
           break;
         case '*': 
-          if( index > 1 && flags[index-1] == 0) ret1 = sum * numbers.get(i+1);
+          if( index > 1 && (flags[index-1] == true)) ret1 = sum * numbers.get(i+1);
           break;
       }
     }
