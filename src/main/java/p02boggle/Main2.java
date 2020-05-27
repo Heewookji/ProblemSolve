@@ -1,4 +1,4 @@
-package ㅡ02boggle;
+package p02boggle;
 
 import java.util.Scanner;
 

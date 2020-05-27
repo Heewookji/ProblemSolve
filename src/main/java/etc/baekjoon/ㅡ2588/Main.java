@@ -1,4 +1,4 @@
-package ㅡetc.baekjoon.ㅡ2588;
+package etc.baekjoon.ㅡ2588;
 
 import java.util.Scanner;
 public class Main {

@@ -1,4 +1,4 @@
-package ㅡ06quadtree;
+package p06quadtree;
 
 import java.util.Scanner;
 

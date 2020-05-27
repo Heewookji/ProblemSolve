@@ -1,4 +1,4 @@
-package ㅡ07fence;
+package p07fence;
 
 import java.util.Scanner;
 

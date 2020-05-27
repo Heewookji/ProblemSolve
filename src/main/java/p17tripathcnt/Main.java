@@ -1,4 +1,4 @@
-package ㅡ17tripathcnt;
+package p17tripathcnt;
 
 import java.util.Scanner;
 

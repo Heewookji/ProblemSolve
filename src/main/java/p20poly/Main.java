@@ -1,4 +1,4 @@
-package ㅡ20poly;
+package p20poly;
 
 import java.util.Scanner;
 

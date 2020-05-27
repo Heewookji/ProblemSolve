@@ -1,4 +1,4 @@
-package ㅡ13jlis;
+package p13jlis;
 
 import java.io.BufferedReader;
 import java.io.IOException;

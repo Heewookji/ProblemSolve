@@ -1,4 +1,4 @@
-package ㅡ19asymtiling;
+package p19asymtiling;
 
 import java.util.Scanner;
 

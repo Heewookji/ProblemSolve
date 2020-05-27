@@ -1,4 +1,4 @@
-package ㅡ16tiling;
+package p16tiling;
 
 import java.io.IOException;
 import java.util.Scanner;

@@ -1,4 +1,4 @@
-package ㅡ01festival;
+package p01festival;
 
 import java.io.DataInputStream;
 import java.io.FileInputStream;

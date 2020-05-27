@@ -1,4 +1,4 @@
-package ㅡ10wildcard;
+package p10wildcard;
 
 import java.util.ArrayList;
 import java.util.List;

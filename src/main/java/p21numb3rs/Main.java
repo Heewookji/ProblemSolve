@@ -1,4 +1,4 @@
-package ㅡ21numb3rs;
+package p21numb3rs;
 
 import java.util.Scanner;
 

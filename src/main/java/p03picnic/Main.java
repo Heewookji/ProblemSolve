@@ -1,4 +1,4 @@
-package ㅡ03picnic;
+package p03picnic;
 
 import java.util.Scanner;
 

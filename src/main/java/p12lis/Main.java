@@ -1,4 +1,4 @@
-package ㅡ12lis;
+package p12lis;
 
 import java.util.Scanner;
 

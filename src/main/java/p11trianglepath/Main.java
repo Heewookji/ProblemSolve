@@ -1,4 +1,4 @@
-package ㅡ11trianglepath;
+package p11trianglepath;
 
 import java.util.Scanner;
 

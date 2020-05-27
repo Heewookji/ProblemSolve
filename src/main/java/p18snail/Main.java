@@ -1,4 +1,4 @@
-package ㅡ18snail;
+package p18snail;
 
 import java.util.Arrays;
 import java.util.Scanner;

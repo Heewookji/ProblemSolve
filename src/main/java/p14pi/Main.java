@@ -1,4 +1,4 @@
-package ㅡ14pi;
+package p14pi;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package ㅡ05clocksync;
+package p05clocksync;
 
 import java.util.ArrayList;
 import java.util.Scanner;

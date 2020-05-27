@@ -1,4 +1,4 @@
-package ㅡ09jumpgame;
+package p09jumpgame;
 
 import java.util.Scanner;
 

@@ -1,4 +1,4 @@
-package ㅡ04boardcover;
+package p04boardcover;
 
 import java.util.Scanner;
 

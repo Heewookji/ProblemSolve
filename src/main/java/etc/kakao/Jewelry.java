@@ -1,4 +1,4 @@
-package ㅡetc.kakao;
+package etc.kakao;
 
 import java.util.ArrayList;
 

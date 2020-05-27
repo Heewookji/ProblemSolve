@@ -1,4 +1,4 @@
-package ㅡ08fanmeeting;
+package p08fanmeeting;
 
 import java.util.Scanner;
 

@@ -1,4 +1,4 @@
-package ㅡ15quantize;
+package p15quantize;
 
 import java.io.BufferedReader;
 import java.io.IOException;

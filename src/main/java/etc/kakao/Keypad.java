@@ -1,4 +1,4 @@
-package ㅡetc.kakao;
+package etc.kakao;
 
 
 public class Keypad {
