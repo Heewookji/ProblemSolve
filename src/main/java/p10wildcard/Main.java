@@ -19,21 +19,22 @@ public class Main {
     int testN = sc.nextInt();
     sc.nextLine();
 
-    for(int t=0; t<testN; t++) {
+    for (int t = 0; t < testN; t++) {
       wildcard = sc.nextLine();
       int nameN = sc.nextInt();
       sc.nextLine();
       output = new ArrayList<String>();
 
-      for(int n=0; n<nameN; n++) {
+      for (int n = 0; n < nameN; n++) {
         name = sc.nextLine();
         cache = new int[101][101];
-        int flag = find(0,0);
-        if(flag == 1) output.add(name);
+        int flag = find(0, 0);
+        if (flag == 1)
+          output.add(name);
       }
       output.sort(null);
-      for(int i=0; i<output.size(); i++) {
-        sb.append(output.get(i)+ "\n");
+      for (int i = 0; i < output.size(); i++) {
+        sb.append(output.get(i) + "\n");
       }
     }
     System.out.print(sb);
@@ -41,17 +42,20 @@ public class Main {
   }
 
   private static int find(int wN, int nN) {
-    if(cache[wN][nN] != 0) return cache[wN][nN];
+    if (cache[wN][nN] != 0)
+      return cache[wN][nN];
 
-    while(wN < wildcard.length() && nN < name.length() && (
-        wildcard.charAt(wN) == '?' || wildcard.charAt(wN) == name.charAt(nN))) {
+    while (wN < wildcard.length() && nN < name.length()
+        && (wildcard.charAt(wN) == '?' || wildcard.charAt(wN) == name.charAt(nN))) {
       wN++;
       nN++;
     }
-    if(wN == wildcard.length() ) return cache[wN][nN] = (nN == name.length())? 1:-1;
-    if(wildcard.charAt(wN) == '*') {
-      for(int i=0; i<=name.length() -nN; i++) {
-        if(find(wN+1, nN+i) == 1) return cache[wN][nN] = 1;
+    if (wN == wildcard.length())
+      return cache[wN][nN] = (nN == name.length()) ? 1 : -1;
+    if (wildcard.charAt(wN) == '*') {
+      for (int i = 0; i <= name.length() - nN; i++) {
+        if (find(wN + 1, nN + i) == 1)
+          return cache[wN][nN] = 1;
       }
     }
     return cache[wN][nN] = -1;
