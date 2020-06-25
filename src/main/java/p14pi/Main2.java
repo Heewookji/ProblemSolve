@@ -25,6 +25,7 @@ public class Main2 {
 
     if (3 <= end - start + 1 && end - start + 1 <= 5)
       return caculate(numbers, start, end);
+      
     if (end - start + 1 < 3)
       return MAX;
 
@@ -37,7 +38,6 @@ public class Main2 {
     int b = caculate(numbers, start, start + 3) + recursive(numbers, start + 4, end, cache);
     int c = caculate(numbers, start, start + 4) + recursive(numbers, start + 5, end, cache);
 
-    //System.out.println( "a = " + a + " b = " + b + " c = " + c);
 
     ret = Math.min(Math.min(a < 0 ? MAX : a, b < 0 ? MAX : b), c < 0 ? MAX : c);
 
@@ -67,30 +67,25 @@ public class Main2 {
       if (numbers[i + 1] - numbers[i] != dDiff)
         d = false;
     }
+    if (a)
+      return 1;
+    if (b)
+      return 2;
+
     for (int i = start; i <= end; i++) {
       if ((i - start) % 2 == 0 && numbers[i] != numbers[start])
         c = false;
       else if ((i - start) % 2 == 1 && numbers[i] != numbers[start + 1])
         c = false;
     }
-    if (a)
-      return 1;
-    if (b)
-      return 2;
+    
     if (c)
       return 4;
     if (d)
       return 5;
+
     return 10;
   }
 
 }
 
-/**
-
-288109756659334461284756482337867831652
-77
-28810975
-
-
-**/
