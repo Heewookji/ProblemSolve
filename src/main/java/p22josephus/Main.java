@@ -26,15 +26,11 @@ public class Main {
 
   private static void find(int n, int term, ArrayList<Integer> ret) {
 
-    int temp = 0;
-    int count = 0;
-    int nextDie = 0;
+    int die = 0;
     while (ret.size() != 2) {
-      nextDie = temp % (n - count);
-      System.out.println("next die = " + ret.get(nextDie));
-      ret.remove(nextDie);
-      count++;
-      temp += term;
+      die %= ret.size();
+      ret.remove(die);
+      die += term - 1;
     }
   }
 
