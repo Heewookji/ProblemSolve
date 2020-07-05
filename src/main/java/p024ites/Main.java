@@ -13,11 +13,11 @@ public class Main {
 
       int target = sc.nextInt();
       int n = sc.nextInt();
-      int[] list = new int[n];
+      long[] list = new long[n];
       list[0] = 1983;
       long seed = list[0];
       for (int l = 0; l < list.length; l++) {
-        list[l] = (int) (seed % 10000) + 1;
+        list[l] = seed % 10000 + 1;
         seed = (seed * 214013 + 2531011) % (long) Math.pow(2, 32);
       }
       for (int l = 0; l < list.length; l++)
@@ -29,7 +29,7 @@ public class Main {
 
   }
 
-  private static int find(final int[] list, int target) {
+  private static int find(final long[] list, int target) {
 
     int ret = 0;
     for (int i = 0; i < list.length; i++) {
