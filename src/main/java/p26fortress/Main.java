@@ -3,31 +3,18 @@ package p26fortress;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class Wall {
+class Node {
 
-  private int x;
-  private int y;
-  private int r;
+  private ArrayList<Node> children = new ArrayList<>();
 
-  public Wall(int x, int y, int r) {
-    this.x = x;
-    this.y = y;
-    this.r = r;
+  public ArrayList<Node> getChildren() {
+    return this.children;
   }
-
-  @Override
-  public String toString() {
-    return "x = " + this.x + " y = " + this.y + " r = " + this.r;
-  }
-
-  public int countDistance(Wall another) {
-
-    return 0;
-  }
-
 }
 
 public class Main {
+
+  static int longest;
 
   public static void main(String[] args) {
 
@@ -36,14 +23,28 @@ public class Main {
 
     for (int i = 0; i < testN; i++) {
       int n = sc.nextInt();
-      ArrayList<Wall> list = new ArrayList<>();
-      for (int j = 0; j < n; j++)
-        list.add(new Wall(sc.nextInt(), sc.nextInt(), sc.nextInt()));
-      int ret = 0;
-      for (int one = 0; one < list.size(); one++)
-        for (int another = one + 1; another < list.size(); another++)
-          ret = Math.max(ret, list.get(one).countDistance(list.get(another)));
     }
 
   }
+
+  private static int height(Node root) {
+
+    ArrayList<Integer> heights = new ArrayList<>();
+
+    for (int i = 0; i < root.getChildren().size(); i++)
+      heights.add(height(root.getChildren().get(i)));
+    if (heights.isEmpty())
+      return 0;
+    heights.sort(null);
+    if (heights.size() >= 2)
+      longest = Math.max(longest, 2 + heights.get(heights.size() - 2) + heights.get(heights.size() - 1));
+    return heights.get(heights.size() - 1) + 1;
+  }
+
+  private static int solve(Node root){
+    longest = 0;
+    int h = height(root);
+    return Math.max(longest, h);
+  }
+
 }
