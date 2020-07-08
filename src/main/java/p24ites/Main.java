@@ -1,4 +1,4 @@
-package p024ites;
+package p24ites;
 
 import java.util.LinkedList;
 import java.util.Queue;
