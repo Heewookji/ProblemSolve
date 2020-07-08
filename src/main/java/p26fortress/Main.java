@@ -41,10 +41,18 @@ public class Main {
     return heights.get(heights.size() - 1) + 1;
   }
 
-  private static int solve(Node root){
+  private static int solve(Node root) {
     longest = 0;
     int h = height(root);
     return Math.max(longest, h);
+  }
+
+  private static Node getTree(int root, int n) {
+    Node ret = new Node();
+    for (int node = 0; node < n; node++)
+      if (isChild(root, node))
+        ret.getChildren().add(getTree(node, n));
+    return ret;
   }
 
 }
