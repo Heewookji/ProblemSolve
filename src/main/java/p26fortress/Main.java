@@ -36,7 +36,7 @@ class Wall {
   }
 
   private Boolean encloses(Wall child) {
-    return this.radius > child.radius && this.sqrdist(child) > Math.pow(this.radius - child.radius, 2);
+    return this.radius > child.radius && this.sqrdist(child) < Math.pow(this.radius - child.radius, 2);
   }
 
   private double sqrdist(Wall another) {
@@ -47,11 +47,6 @@ class Wall {
   public boolean equals(Object obj) {
     Wall another = (Wall) obj;
     return this.x == another.x && this.y == another.y && this.radius == another.radius;
-  }
-
-  @Override
-  public String toString() {
-    return "x = " + this.x + " y = " + this.y + " r = " + this.radius;
   }
 
 }
