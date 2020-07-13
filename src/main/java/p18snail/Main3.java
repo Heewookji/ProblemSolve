@@ -1,5 +1,6 @@
 package p18snail;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main3 {
@@ -13,14 +14,15 @@ public class Main3 {
 
       int depth = sc.nextInt();
       int day = sc.nextInt();
-      int[][] cache = new int[depth + 1][day + 1];
-
+      double[][] cache = new double[depth + 1][day + 1];
+      for (int j = 0; j < depth + 1; j++)
+        Arrays.fill(cache[j], -1);
       System.out.println(find(depth, day, cache));
 
     }
   }
 
-  private static double find(int depth, int day, int[][] cache) {
+  private static double find(int depth, int day, double[][] cache) {
 
     if (depth <= 0)
       return 1;
@@ -29,6 +31,6 @@ public class Main3 {
     if (cache[depth][day] != -1)
       return cache[depth][day];
 
-    return cache[depth][day] = find(depth - 2, day - 1) * 0.75 + find(depth - 1, day - 1) * 0.25;
+    return cache[depth][day] = find(depth - 2, day - 1, cache) * 0.75 + find(depth - 1, day - 1, cache) * 0.25;
   }
 }
