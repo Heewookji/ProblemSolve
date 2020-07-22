@@ -28,6 +28,7 @@ public class Main {
       int larger = resultArr[i];
       originArr[i] = n + 1 - larger;
     }
+    Util.insert(new Node(3), new Node(1));
 
   }
 }
