@@ -51,4 +51,40 @@ public class Util {
     return root;
   }
 
+  public static Node merge(Node a, Node b) {
+    if (a == null)
+      return b;
+    if (b == null)
+      return a;
+    if (a.getPriority() < b.getPriority()) {
+      b.setLeft(merge(a, b.getLeft()));
+      return b;
+    }
+    a.setRight(merge(a.getRight(), b));
+    return a;
+  }
+
+  public static Node erase(Node root, int key) {
+    if (root == null)
+      return root;
+    if (root.getKey() == key)
+      return merge(root.getLeft(), root.getRight());
+    if (root.getKey() < key)
+      root.setLeft(erase(root.getRight(), key));
+    else
+      root.setRight(erase(root.getLeft(), key));
+    return root;
+  }
+
+  public static Node kth(Node root, int nth) {
+    int leftSize = 0;
+    if (root.getLeft() != null)
+      leftSize = root.getLeft().getSize();
+    if (nth <= leftSize)
+      return kth(root.getLeft(), nth);
+    if (nth == leftSize + 1)
+      return root;
+    return kth(root.getRight(), nth - leftSize - 1);
+  }
+
 }
