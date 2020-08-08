@@ -1,5 +1,6 @@
 package p33meetingroom;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 class Meeting {
@@ -22,6 +23,26 @@ class Meeting {
 
 }
 
+class Pair {
+
+  private int order;
+  private int number;
+
+  public Pair(int order, int number) {
+    this.order = order;
+    this.number = number;
+  }
+
+  public int getNumber() {
+    return number;
+  }
+
+  public int getOrder() {
+    return order;
+  }
+
+}
+
 public class Main {
 
   public static void main(String[] args) {
@@ -35,9 +56,16 @@ public class Main {
       for (int j = 0; j < meetings.length; j++)
         meetings[j] = new Meeting(sc.nextInt(), sc.nextInt());
       int[][] adj = makeGraph(meetings);
+      int[] ans = solve2SAT(adj);
+      if (ans.length == 0) {
+        System.out.println("IMPOSSIBLE");
+        continue;
+      }
+      StringBuilder line = new StringBuilder("POSSIBLE\n");
+      for (int j = 0; j < ans.length; j++)
+        if (ans[j] == 1)
+          line.append(meetings[j].getStart() + " " + meetings[j].getEnd() + "\n");
     }
-
-
     sc.close();
   }
 
@@ -64,6 +92,34 @@ public class Main {
 
   private static boolean duplicate(Meeting a, Meeting b) {
     return a.getEnd() <= b.getStart() || b.getEnd() <= a.getStart();
+  }
+
+  private static int[] solve2SAT(int[][] adj) {
+
+    int n = adj.length / 2;
+    int[] label = tarjanSCC(adj);
+
+    for (int i = 0; i < 2 * n; i += 2)
+      if (label[i] == label[i + 1])
+        return new int[0];
+    int[] ans = new int[n];
+    ArrayList<Pair> order = new ArrayList<>();
+    order.sort((Pair p1, Pair p2) -> {
+      return p1.getOrder() - p2.getOrder();
+    });
+    for (int i = 0; i < 2 * n; i++) {
+      int vertex = order.get(i).getNumber();
+      int variable = vertex / 2;
+      if (ans[variable] != 0)
+        continue;
+      // A가 !A보다 먼저 나올 경우 A는 FALSE(-1)
+      ans[variable] = vertex % 2 == 0 ? -1 : 1;
+    }
+    return ans;
+  }
+
+  private static int[] tarjanSCC(int[][] adj) {
+    return null;
   }
 
 }
