@@ -1,56 +1,18 @@
 package p33meetingroom;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
-
-class Meeting {
-
-  private int start;
-  private int end;
-
-  public Meeting(int start, int end) {
-    this.start = start;
-    this.end = end;
-  }
-
-  public int getStart() {
-    return start;
-  }
-
-  public int getEnd() {
-    return end;
-  }
-
-}
-
-class Pair {
-
-  private int order;
-  private int number;
-
-  public Pair(int order, int number) {
-    this.order = order;
-    this.number = number;
-  }
-
-  public int getNumber() {
-    return number;
-  }
-
-  public int getOrder() {
-    return order;
-  }
-
-}
+import java.util.Stack;
 
 public class Main {
 
   public static void main(String[] args) {
 
     Scanner sc = new Scanner(System.in);
-    int testN = sc.nextInt();
+    int caseN = sc.nextInt();
 
-    for (int i = 0; i < testN; i++) {
+    for (int i = 0; i < caseN; i++) {
       int n = sc.nextInt();
       Meeting[] meetings = new Meeting[2 * n];
       for (int j = 0; j < meetings.length; j++)
@@ -100,6 +62,7 @@ public class Main {
     int n = adj.length / 2;
     int[] label = SCCUtil.tarjanSCC(adj);
 
+    // 모든 정점들이 하나씩 SCC를 갖고 있다. 따라서 정답이 없는 경우가 걸러지지않음.
     for (int i = 0; i < 2 * n; i += 2)
       if (label[i] == label[i + 1])
         return new int[0];
@@ -120,6 +83,91 @@ public class Main {
       ans[variable] = vertex % 2 == 0 ? -1 : 1;
     }
     return ans;
+  }
+
+}
+
+class SCCUtil {
+
+  private static int sccCounter, vertexCounter;
+  private static int[] sccId, discovered;
+  private static Stack<Integer> stack;
+
+  public static int[] tarjanSCC(final int[][] adj) {
+
+    sccId = discovered = new int[adj.length];
+    stack = new Stack<>();
+    Arrays.fill(sccId, -1);
+    Arrays.fill(discovered, -1);
+    sccCounter = vertexCounter = 0;
+    for (int i = 0; i < adj.length; i++)
+      if (discovered[i] == -1)
+        scc(adj, i);
+    return sccId;
+  }
+
+  private static int scc(final int[][] adj, int here) {
+    int ret = discovered[here] = vertexCounter++;
+    stack.push(here);
+    for (int there = 0; there < adj[here].length; there++) {
+      if (adj[here][there] == 0)
+        continue;
+      if (discovered[there] == -1) {
+        ret = Math.min(ret, scc(adj, there));
+      } else if (sccId[there] == -1) {
+        ret = Math.min(ret, discovered[there]);
+      }
+    }
+    if (ret == discovered[here]) {
+      while (true) {
+        int top = stack.peek();
+        stack.pop();
+        sccId[top] = sccCounter;
+        if (top == here)
+          break;
+      }
+      sccCounter++;
+    }
+    return ret;
+  }
+}
+
+class Meeting {
+
+  private int start;
+  private int end;
+
+  public Meeting(int start, int end) {
+    this.start = start;
+    this.end = end;
+  }
+
+  public int getStart() {
+    return start;
+  }
+
+  public int getEnd() {
+    return end;
+  }
+
+}
+
+class Pair {
+
+  private int order;
+  private int number;
+
+  public Pair(int order, int number) {
+    this.order = order;
+    this.number = number;
+  }
+
+  public int getNumber() {
+    return number;
+  }
+
+  public int getOrder() {
+    return order;
   }
 
 }
