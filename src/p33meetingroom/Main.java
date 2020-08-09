@@ -65,6 +65,7 @@ public class Main {
       for (int j = 0; j < ans.length; j++)
         if (ans[j] == 1)
           line.append(meetings[j].getStart() + " " + meetings[j].getEnd() + "\n");
+      System.out.println(line);
     }
     sc.close();
   }
@@ -97,15 +98,18 @@ public class Main {
   private static int[] solve2SAT(int[][] adj) {
 
     int n = adj.length / 2;
-    int[] label = tarjanSCC(adj);
+    int[] label = SCCUtil.tarjanSCC(adj);
 
     for (int i = 0; i < 2 * n; i += 2)
       if (label[i] == label[i + 1])
         return new int[0];
+
     int[] ans = new int[n];
     ArrayList<Pair> order = new ArrayList<>();
+    for (int i = 0; i < 2 * n; i++)
+      order.add(new Pair(label[i], i));
     order.sort((Pair p1, Pair p2) -> {
-      return p1.getOrder() - p2.getOrder();
+      return p2.getOrder() - p1.getOrder();
     });
     for (int i = 0; i < 2 * n; i++) {
       int vertex = order.get(i).getNumber();
@@ -116,10 +120,6 @@ public class Main {
       ans[variable] = vertex % 2 == 0 ? -1 : 1;
     }
     return ans;
-  }
-
-  private static int[] tarjanSCC(int[][] adj) {
-    return null;
   }
 
 }
