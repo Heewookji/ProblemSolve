@@ -23,11 +23,10 @@ public class Main {
         System.out.println("IMPOSSIBLE");
         continue;
       }
-      StringBuilder line = new StringBuilder("POSSIBLE\n");
+      System.out.println("POSSIBLE");
       for (int j = 0; j < ans.length; j++)
         if (ans[j] == 1)
-          line.append(meetings[j].getStart() + " " + meetings[j].getEnd() + "\n");
-      System.out.println(line);
+          System.out.println(meetings[j].getStart() + " " + meetings[j].getEnd());
     }
     sc.close();
   }
@@ -39,8 +38,10 @@ public class Main {
 
     for (int i = 0; i < meetingN; i += 2) {
       int j = i + 1;
-      adj[i * 2 + 1][j * 2]++;
-      adj[j * 2 + 1][i * 2]++;
+      adj[i * 2 + 1][j * 2]++; // !i -> j
+      adj[j * 2 + 1][i * 2]++; // !j -> i
+      adj[i * 2][j * 2 + 1]++; // i -> !j
+      adj[j * 2][i * 2 + 1]++; // j -> !i
     }
     for (int i = 0; i < meetingN; i++) {
       for (int j = i + 1; j < meetingN; j++) {
@@ -62,7 +63,6 @@ public class Main {
     int n = adj.length / 2;
     int[] label = SCCUtil.tarjanSCC(adj);
 
-    // 모든 정점들이 하나씩 SCC를 갖고 있다. 따라서 정답이 없는 경우가 걸러지지않음.
     for (int i = 0; i < 2 * n; i += 2)
       if (label[i] == label[i + 1])
         return new int[0];
@@ -95,7 +95,9 @@ class SCCUtil {
 
   public static int[] tarjanSCC(final int[][] adj) {
 
-    sccId = discovered = new int[adj.length];
+    //책을 그대로 따라했다가, 값은 메모리를 가리키게 되어 혼쭐이 났다.
+    sccId = new int[adj.length];
+    discovered = new int[adj.length];
     stack = new Stack<>();
     Arrays.fill(sccId, -1);
     Arrays.fill(discovered, -1);
