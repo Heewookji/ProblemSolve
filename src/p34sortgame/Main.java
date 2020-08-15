@@ -1,7 +1,7 @@
 package p34sortgame;
 
 import java.util.Arrays;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -42,46 +42,47 @@ public class Main {
   public static void main(String[] args) {
 
     Scanner scanner = new Scanner(System.in);
+    HashMap<ArrayWrapper, Integer> toSort = precalc(8);
     int caseN = scanner.nextInt();
 
     for (int i = 0; i < caseN; i++) {
       int n = scanner.nextInt();
-      int[] list = new int[n];
+      int[] perm = new int[n];
       for (int j = 0; j < n; j++)
-        list[j] = scanner.nextInt();
-      System.out.println(bfs(new ArrayWrapper(list), list.length));
+        perm[j] = scanner.nextInt();
+      System.out.println(solve(perm, toSort));
     }
     scanner.close();
   }
 
-  private static int bfs(ArrayWrapper list, int n) {
+  private static HashMap<ArrayWrapper, Integer> precalc(int n) {
 
-    ArrayWrapper sorted = new ArrayWrapper(list.getList().clone());
-    Arrays.sort(sorted.getList());
+    HashMap<ArrayWrapper, Integer> toSort = new HashMap<>();
+    int[] array = new int[n];
+    for (int i = 0; i < n; i++)
+      array[i] = i;
+    ArrayWrapper perm = new ArrayWrapper(array);
     Queue<ArrayWrapper> que = new LinkedList<>();
-    LinkedHashMap<ArrayWrapper, Integer> distance = new LinkedHashMap<>();
-    distance.put(list, 0);
-    que.add(list);
+    que.add(perm);
+    toSort.put(perm, 0);
 
     while (!que.isEmpty()) {
       ArrayWrapper here = que.poll();
-      int cost = distance.get(here);
-      if (here.equals(sorted))
-        return cost;
+      int cost = toSort.get(here);
       for (int i = 0; i < n; i++) {
         for (int j = i + 2; j <= n; j++) {
           ArrayWrapper there = reverse(here, i, j);
-          if (!distance.containsKey(there)) {
-            distance.put(there, cost + 1);
+          if (!toSort.containsKey(there)) {
+            toSort.put(there, cost + 1);
             que.add(there);
           }
         }
       }
     }
-    return -1;
+    return toSort;
   }
 
-  private static ArrayWrapper reverse(ArrayWrapper array, int start, int end) {
+  private static ArrayWrapper reverse(final ArrayWrapper array, int start, int end) {
     int[] newArray = array.getList().clone();
     for (int point = start; point - start < (end - start) / 2; point++) {
       int temp = newArray[point];
@@ -89,6 +90,23 @@ public class Main {
       newArray[end - (point - start) - 1] = temp;
     }
     return new ArrayWrapper(newArray);
+  }
+
+  private static int solve(final int[] perm, final HashMap<ArrayWrapper, Integer> toSort) {
+    int n = perm.length;
+    int[] fixed = new int[8];
+
+    for (int i = 0; i < 8; i++)
+      fixed[i] = i;
+    for (int i = 0; i < n; i++) {
+      int smallerCount = 0;
+      for (int j = 0; j < n; j++)
+        if (perm[j] < perm[i])
+          smallerCount++;
+      fixed[i] = smallerCount;
+    }
+    
+    return toSort.get(new ArrayWrapper(fixed));
   }
 
 }
