@@ -41,8 +41,11 @@ public class Main {
 
   public static void main(String[] args) {
 
+    HashMap<ArrayWrapper, Integer> toSort = new HashMap<>();
+    for (int i = 1; i <= 8; i++)
+      precalc(toSort, i);
+
     Scanner scanner = new Scanner(System.in);
-    HashMap<ArrayWrapper, Integer> toSort = precalc(8);
     int caseN = scanner.nextInt();
 
     for (int i = 0; i < caseN; i++) {
@@ -50,14 +53,14 @@ public class Main {
       int[] perm = new int[n];
       for (int j = 0; j < n; j++)
         perm[j] = scanner.nextInt();
+
       System.out.println(solve(perm, toSort));
     }
     scanner.close();
   }
 
-  private static HashMap<ArrayWrapper, Integer> precalc(int n) {
+  private static HashMap<ArrayWrapper, Integer> precalc(HashMap<ArrayWrapper, Integer> toSort, int n) {
 
-    HashMap<ArrayWrapper, Integer> toSort = new HashMap<>();
     int[] array = new int[n];
     for (int i = 0; i < n; i++)
       array[i] = i;
@@ -94,10 +97,8 @@ public class Main {
 
   private static int solve(final int[] perm, final HashMap<ArrayWrapper, Integer> toSort) {
     int n = perm.length;
-    int[] fixed = new int[8];
+    int[] fixed = new int[n];
 
-    for (int i = 0; i < 8; i++)
-      fixed[i] = i;
     for (int i = 0; i < n; i++) {
       int smallerCount = 0;
       for (int j = 0; j < n; j++)
@@ -105,7 +106,6 @@ public class Main {
           smallerCount++;
       fixed[i] = smallerCount;
     }
-    
     return toSort.get(new ArrayWrapper(fixed));
   }
 
