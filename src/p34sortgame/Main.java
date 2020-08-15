@@ -1,47 +1,18 @@
 package p34sortgame;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
-
-class ArrayWrapper {
-
-  private int[] list;
-
-  public ArrayWrapper(int[] list) {
-    this.list = list;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    ArrayWrapper another = (ArrayWrapper) obj;
-    return Arrays.equals(this.getList(), another.getList());
-  }
-
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int hashCode = 1;
-    String line = "";
-    for (int i : list)
-      line += String.valueOf(i);
-    hashCode = prime * hashCode + line.hashCode();
-    return hashCode;
-  }
-
-  public int[] getList() {
-    return this.list;
-  }
-
-}
 
 public class Main {
 
   public static void main(String[] args) {
 
-    HashMap<ArrayWrapper, Integer> toSort = new HashMap<>();
+    HashMap<List<Integer>, Integer> toSort = new HashMap<>();
     for (int i = 1; i <= 8; i++)
       precalc(toSort, i);
 
@@ -50,31 +21,30 @@ public class Main {
 
     for (int i = 0; i < caseN; i++) {
       int n = scanner.nextInt();
-      int[] perm = new int[n];
+      List<Integer> perm = new ArrayList<>();
       for (int j = 0; j < n; j++)
-        perm[j] = scanner.nextInt();
-
+        perm.add(scanner.nextInt());
       System.out.println(solve(perm, toSort));
     }
     scanner.close();
   }
 
-  private static HashMap<ArrayWrapper, Integer> precalc(HashMap<ArrayWrapper, Integer> toSort, int n) {
+  private static HashMap<List<Integer>, Integer> precalc(HashMap<List<Integer>, Integer> toSort, int n) {
 
-    int[] array = new int[n];
+    List<Integer> perm = new ArrayList<>();
     for (int i = 0; i < n; i++)
-      array[i] = i;
-    ArrayWrapper perm = new ArrayWrapper(array);
-    Queue<ArrayWrapper> que = new LinkedList<>();
+      perm.add(i);
+    Queue<List<Integer>> que = new LinkedList<>();
     que.add(perm);
     toSort.put(perm, 0);
 
     while (!que.isEmpty()) {
-      ArrayWrapper here = que.poll();
+      List<Integer> here = que.poll();
       int cost = toSort.get(here);
       for (int i = 0; i < n; i++) {
         for (int j = i + 2; j <= n; j++) {
-          ArrayWrapper there = reverse(here, i, j);
+          List<Integer> there = new ArrayList<>(here);
+          Collections.reverse(there.subList(i, j));
           if (!toSort.containsKey(there)) {
             toSort.put(there, cost + 1);
             que.add(there);
@@ -85,28 +55,18 @@ public class Main {
     return toSort;
   }
 
-  private static ArrayWrapper reverse(final ArrayWrapper array, int start, int end) {
-    int[] newArray = array.getList().clone();
-    for (int point = start; point - start < (end - start) / 2; point++) {
-      int temp = newArray[point];
-      newArray[point] = newArray[end - (point - start) - 1];
-      newArray[end - (point - start) - 1] = temp;
-    }
-    return new ArrayWrapper(newArray);
-  }
-
-  private static int solve(final int[] perm, final HashMap<ArrayWrapper, Integer> toSort) {
-    int n = perm.length;
-    int[] fixed = new int[n];
+  private static int solve(final List<Integer> perm, final HashMap<List<Integer>, Integer> toSort) {
+    int n = perm.size();
+    List<Integer> fixed = new ArrayList<>();
 
     for (int i = 0; i < n; i++) {
       int smallerCount = 0;
       for (int j = 0; j < n; j++)
-        if (perm[j] < perm[i])
+        if (perm.get(j) < perm.get(i))
           smallerCount++;
-      fixed[i] = smallerCount;
+      fixed.add(i, smallerCount);
     }
-    return toSort.get(new ArrayWrapper(fixed));
+    return toSort.get(fixed);
   }
 
 }
