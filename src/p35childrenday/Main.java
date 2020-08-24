@@ -60,9 +60,9 @@ public class Main {
 
   private static Pair[] makeGraph(String number, int n, int m) {
 
-    String[] numbers = number.split("");
+    char[] numbers = number.toCharArray();
     Arrays.sort(numbers);
-    number = String.join("", numbers);
+    number = new String(numbers);
     Pair[] graph = new Pair[2 * n];
     for (int i = 0; i < graph.length; i++)
       graph[i] = new Pair();
