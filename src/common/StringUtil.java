@@ -9,16 +9,16 @@ public class StringUtil {
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
     String method = scanner.nextLine();
+    String origin = "eafcbd";
     String ret = "";
+    System.out.println("문자열 = " + origin);
 
     switch (method) {
-      case "문자열정렬":
-        System.out.print("정렬할문자열 = ");
-        ret = sortString(scanner.next());
+      case "정렬":
+        ret = sort(origin);
         break;
-      case "문자열뒤집기":
-        System.out.print("뒤집을문자열 = ");
-        ret = reverseString(scanner.next());
+      case "뒤집기":
+        ret = reverse(origin);
         break;
       default:
         System.out.println("작업을 지정해주세요");
@@ -27,13 +27,13 @@ public class StringUtil {
     scanner.close();
   }
 
-  private static String sortString(String s) {
+  private static String sort(String s) {
     char[] arr = s.toCharArray();
     Arrays.sort(arr);
     return new String(arr);
   }
 
-  private static String reverseString(String s) {
+  private static String reverse(String s) {
     return new StringBuffer(s).reverse().toString();
   }
 

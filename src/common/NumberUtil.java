@@ -8,12 +8,13 @@ public class NumberUtil {
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
     String method = scanner.nextLine();
+    int origin = 123;
     int ret = 0;
+    System.out.println("숫자 = " + origin);
 
     switch (method) {
-      case "숫자뒤집기":
-        System.out.print("뒤집을숫자 = ");
-        ret = reverseNumber(scanner.nextInt());
+      case "뒤집기":
+        ret = reverse(origin);
         break;
       default:
         System.out.println("작업을 지정해주세요");
@@ -22,7 +23,7 @@ public class NumberUtil {
     scanner.close();
   }
 
-  private static int reverseNumber(int number) {
+  private static int reverse(int number) {
     int result = 0;
     while (number > 0) {
       result = result * 10 + number % 10;
