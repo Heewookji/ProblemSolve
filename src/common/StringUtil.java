@@ -8,6 +8,7 @@ public class StringUtil {
 
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
+    System.out.print("실행할 작업 = ");
     String method = scanner.nextLine();
     String origin = "eafcbd";
     String ret = "";

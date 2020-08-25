@@ -10,6 +10,7 @@ public class ListUtil {
 
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
+    System.out.print("실행할 작업 = ");
     String method = scanner.nextLine();
     List<Integer> origin = new ArrayList<>();
     for (int i = 0; i < 10; i++)

@@ -7,6 +7,7 @@ public class NumberUtil {
 
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
+    System.out.print("실행할 작업 = ");
     String method = scanner.nextLine();
     int origin = 123;
     int ret = 0;
