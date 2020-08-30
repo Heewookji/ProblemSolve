@@ -27,7 +27,7 @@ public class Keypad3 {
 
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
-    System.out.println(new Keypad3().solution(new int[] { 1, 3, 4, 5, 8, 2, 1, 4, 5, 9, 5 }, "right"));
+    System.out.println(new Keypad3().solution2(new int[] { 1, 3, 4, 5, 8, 2, 1, 4, 5, 9, 5 }, "right"));
   }
 
   public String solution(int[] numbers, String hand) {
@@ -68,4 +68,44 @@ public class Keypad3 {
     }
     return ret;
   }
+
+  public String solution2(int[] numbers, String hand) {
+    String ret = "";
+    int leftNum = 10;
+    int rightNum = 12;
+    for (int i : numbers) {
+      switch (i) {
+        case 1:
+        case 4:
+        case 7:
+          ret += "L";
+          leftNum = i;
+          break;
+        case 3:
+        case 6:
+        case 9:
+          ret += "R";
+          rightNum = i;
+          break;
+        default:
+          String closeHand = checkHand(i, leftNum, rightNum, hand);
+          if (closeHand.equals("L"))
+            leftNum = i == 0 ? 11 : i;
+          else
+            rightNum = i == 0 ? 11 : i;
+          ret += closeHand;
+      }
+    }
+    return ret;
+  }
+
+  private String checkHand(int number, int leftNum, int rightNum, String hand) {
+    number = number == 0 ? 11 : number;
+    int leftDistance = Math.abs((number - 1) / 3 - (leftNum - 1) / 3) + Math.abs((number - 1) % 3 - (leftNum - 1) % 3);
+    int rightDistance = Math.abs((number - 1) / 3 - (rightNum - 1) / 3)
+        + Math.abs((number - 1) % 3 - (rightNum - 1) % 3);
+    return leftDistance == rightDistance ? (hand.equals("left") ? "L" : "R")
+        : (leftDistance < rightDistance ? "L" : "R");
+  }
+
 }
