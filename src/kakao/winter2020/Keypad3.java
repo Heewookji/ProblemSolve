@@ -1,4 +1,4 @@
-package kakao;
+package kakao.winter2020;
 
 import java.util.Scanner;
 
