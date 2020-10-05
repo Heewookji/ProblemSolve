@@ -2,6 +2,8 @@ package kakao.spring2021;
 
 import java.util.HashMap;
 
+
+//효율성 테스트 실패
 class Recruit {
 
   class Person {
