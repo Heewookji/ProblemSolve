@@ -22,7 +22,7 @@ class Pair implements Comparable<Pair> {
 
 /**
  * 
- * 4 2 1 2 2 12 2 0 2 3 4 2 0 12 3 3 2 1 4 2 3
+ * 4 8 0 1 2 0 2 12 1 0 2 1 3 4 2 0 12 2 3 3 3 1 4 3 2 3
  * 
  * 
  **/
@@ -37,11 +37,9 @@ public class Dijkstra {
       adj[i] = new ArrayList<Pair>();
     int[] dist = new int[n];
     Arrays.fill(dist, Integer.MAX_VALUE);
-    for (int i = 0; i < n; i++) {
-      int linkN = scanner.nextInt();
-      for (int j = 0; j < linkN; j++)
-        adj[i].add(new Pair(scanner.nextInt(), scanner.nextInt()));
-    }
+    int linkN = scanner.nextInt();
+    for (int j = 0; j < linkN; j++)
+      adj[scanner.nextInt()].add(new Pair(scanner.nextInt(), scanner.nextInt()));
 
     new Dijkstra().DoWithoutQueue(0, adj, dist);
     System.out.println(dist[2]);
