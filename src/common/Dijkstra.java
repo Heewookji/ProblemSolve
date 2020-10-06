@@ -41,11 +41,11 @@ public class Dijkstra {
     for (int j = 0; j < linkN; j++)
       adj[scanner.nextInt()].add(new Pair(scanner.nextInt(), scanner.nextInt()));
 
-    new Dijkstra().DoWithoutQueue(0, adj, dist);
+    new Dijkstra().doWithoutQueue(0, adj, dist);
     System.out.println(dist[2]);
   }
 
-  private void Do(int start, ArrayList<Pair>[] adj, int[] dist) {
+  private void doWithQueue(int start, ArrayList<Pair>[] adj, int[] dist) {
     PriorityQueue<Pair> pQueue = new PriorityQueue<>();
     pQueue.offer(new Pair(start, 0));
     dist[start] = 0;
@@ -69,7 +69,7 @@ public class Dijkstra {
     }
   }
 
-  private void DoWithoutQueue(int start, ArrayList<Pair>[] adj, int[] dist) {
+  private void doWithoutQueue(int start, ArrayList<Pair>[] adj, int[] dist) {
 
     boolean[] visited = new boolean[dist.length];
     int here = -1;
