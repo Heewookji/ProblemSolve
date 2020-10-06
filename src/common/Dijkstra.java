@@ -22,7 +22,7 @@ class Pair implements Comparable<Pair> {
 
 /**
  * 
- * 4      2 1 2 2 12    2 0 2 3 4    2 0 12 3 3   2 1 4 2 3
+ * 4 2 1 2 2 12 2 0 2 3 4 2 0 12 3 3 2 1 4 2 3
  * 
  * 
  **/
@@ -43,7 +43,7 @@ public class Dijkstra {
         adj[i].add(new Pair(scanner.nextInt(), scanner.nextInt()));
     }
 
-    new Dijkstra().Do(0, adj, dist);
+    new Dijkstra().DoWithoutQueue(0, adj, dist);
     System.out.println(dist[2]);
   }
 
@@ -69,6 +69,34 @@ public class Dijkstra {
       }
 
     }
+  }
+
+  private void DoWithoutQueue(int start, ArrayList<Pair>[] adj, int[] dist) {
+
+    boolean[] visited = new boolean[dist.length];
+    int here = -1;
+    int closest;
+    dist[start] = 0;
+    while (true) {
+      closest = Integer.MAX_VALUE;
+      for (int i = 0; i < adj.length; i++) {
+        if (!visited[i] && closest > dist[i]) {
+          here = i;
+          closest = dist[i];
+        }
+      }
+      if (closest == Integer.MAX_VALUE)
+        break;
+      visited[here] = true;
+      for (int i = 0; i < adj[here].size(); i++) {
+        int there = adj[here].get(i).num;
+        if (visited[there])
+          continue;
+        int cost = adj[here].get(i).cost;
+        dist[there] = Math.min(dist[there], cost + dist[here]);
+      }
+    }
+
   }
 
 }
