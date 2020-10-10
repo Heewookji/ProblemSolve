@@ -1,4 +1,4 @@
-package kakao.winter2020;
+package etc.kakao.winter2020;
 
 
 public class Keypad {

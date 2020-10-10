@@ -1,4 +1,4 @@
-package kakao.spring2021;
+package etc.kakao.spring2021;
 
 class Id {
   public static void main(String[] args) {

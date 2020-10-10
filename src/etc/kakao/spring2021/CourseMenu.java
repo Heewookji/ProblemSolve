@@ -1,4 +1,4 @@
-package kakao.spring2021;
+package etc.kakao.spring2021;
 
 import java.util.ArrayList;
 import java.util.Collections;
