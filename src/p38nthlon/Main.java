@@ -5,30 +5,8 @@ import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
-class Pair implements Comparable<Pair> {
+import domain.Pair;
 
-  private int cost;
-  private int num;
-
-  public Pair(int num, int cost) {
-    this.num = num;
-    this.cost = cost;
-  }
-
-  public int getCost() {
-    return cost;
-  }
-
-  public int getNum() {
-    return num;
-  }
-
-  @Override
-  public int compareTo(Pair o) {
-    return this.cost - o.cost;
-  }
-
-}
 
 public class Main {
 
@@ -39,7 +17,7 @@ public class Main {
 
     Scanner scanner = new Scanner(System.in);
     int caseN = scanner.nextInt();
-    ArrayList<Pair>[] adj = new ArrayList[START + 1];
+    ArrayList<Pair<Integer>>[] adj = new ArrayList[START + 1];
 
     for (int i = 0; i < caseN; i++) {
       int n = scanner.nextInt();
@@ -57,12 +35,12 @@ public class Main {
     }
   }
 
-  private static int[] dijkstra(final int start, final ArrayList<Pair>[] adj) {
+  private static int[] dijkstra(final int start, final ArrayList<Pair<Integer>>[] adj) {
 
     int[] dist = new int[START + 1];
     Arrays.fill(dist, INF);
-    PriorityQueue<Pair> pQueue = new PriorityQueue<>();
-    pQueue.add(new Pair(start, 0));
+    PriorityQueue<Pair<Integer>> pQueue = new PriorityQueue<>();
+    pQueue.add(new Pair<>(start, 0));
 
     while (!pQueue.isEmpty()) {
       int here = pQueue.peek().getNum();
@@ -77,26 +55,26 @@ public class Main {
         int nextCost = nowCost + adj[here].get(i).getCost();
         if (nextCost < dist[there]) {
           dist[there] = nextCost;
-          pQueue.add(new Pair(there, nextCost));
+          pQueue.add(new Pair<>(there, nextCost));
         }
       }
     }
     return dist;
   }
 
-  private static void init(ArrayList<Pair>[] adj, final int[] a, final int[] b) {
+  private static void init(ArrayList<Pair<Integer>>[] adj, final int[] a, final int[] b) {
     for (int i = 0; i < adj.length; i++)
       adj[i] = new ArrayList<>();
     for (int i = 0; i < a.length; i++) {
       int delta = a[i] - b[i];
-      adj[START].add(new Pair(vertex(delta), a[i]));
+      adj[START].add(new Pair<>(vertex(delta), a[i]));
     }
     for (int delta = -200; delta <= 200; delta++) {
       for (int i = 0; i < a.length; i++) {
         int next = delta + a[i] - b[i];
         if (Math.abs(next) > 200)
           continue;
-        adj[vertex(delta)].add(new Pair(vertex(next), a[i]));
+        adj[vertex(delta)].add(new Pair<>(vertex(next), a[i]));
       }
     }
   }

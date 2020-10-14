@@ -8,30 +8,8 @@ import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-class Pair implements Comparable<Pair> {
+import domain.Pair;
 
-  private int num;
-  private double cost;
-
-  public Pair(int num, double cost) {
-    this.num = num;
-    this.cost = cost;
-  }
-
-  public double getCost() {
-    return cost;
-  }
-
-  public int getNum() {
-    return num;
-  }
-
-  @Override
-  public int compareTo(Pair another) {
-    return Double.compare(this.cost, another.cost);
-  }
-
-}
 
 public class Main {
 
@@ -47,7 +25,7 @@ public class Main {
       int n = Integer.parseInt(st.nextToken());
       int linkN = Integer.parseInt(st.nextToken());
 
-      ArrayList<Pair> adj[] = new ArrayList[n];
+      ArrayList<Pair<Double>> adj[] = new ArrayList[n];
       double[] dist = new double[n];
       Arrays.fill(dist, MAX);
       for (int j = 0; j < adj.length; j++)
@@ -57,18 +35,18 @@ public class Main {
         int here = Integer.parseInt(st.nextToken());
         int there = Integer.parseInt(st.nextToken());
         double noise = Double.parseDouble(st.nextToken());
-        adj[here].add(new Pair(there, noise));
-        adj[there].add(new Pair(here, noise));
+        adj[here].add(new Pair<>(there, noise));
+        adj[there].add(new Pair<>(here, noise));
       }
       dijkstra(adj, dist);
       System.out.printf("%.10f\n", dist[n - 1]);
     }
   }
 
-  private static void dijkstra(ArrayList<Pair>[] adj, double[] dist) {
-    PriorityQueue<Pair> pQueue = new PriorityQueue<>();
+  private static void dijkstra(ArrayList<Pair<Double>>[] adj, double[] dist) {
+    PriorityQueue<Pair<Double>> pQueue = new PriorityQueue<>();
     dist[0] = 1;
-    pQueue.add(new Pair(0, 1));
+    pQueue.add(new Pair<>(0, 1.0));
 
     while (!pQueue.isEmpty()) {
       int here = pQueue.peek().getNum();
@@ -82,7 +60,7 @@ public class Main {
         int there = adj[here].get(i).getNum();
         double nextCost = nowCost * adj[here].get(i).getCost();
         if (nextCost < dist[there]) {
-          pQueue.add(new Pair(there, nextCost));
+          pQueue.add(new Pair<>(there, nextCost));
           dist[there] = nextCost;
         }
       }

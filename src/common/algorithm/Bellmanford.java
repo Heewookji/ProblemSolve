@@ -1,8 +1,10 @@
-package common;
+package common.algorithm;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+
+import domain.Pair;
 
 /**
  * 
@@ -16,18 +18,18 @@ public class Bellmanford {
 
     Scanner scanner = new Scanner(System.in);
     int n = scanner.nextInt();
-    ArrayList<Pair>[] adj = new ArrayList[n];
+    ArrayList<Pair<Integer>>[] adj = new ArrayList[n];
     for (int i = 0; i < adj.length; i++)
-      adj[i] = new ArrayList<Pair>();
+      adj[i] = new ArrayList<Pair<Integer>>();
     int linkN = scanner.nextInt();
     for (int j = 0; j < linkN; j++)
-      adj[scanner.nextInt()].add(new Pair(scanner.nextInt(), scanner.nextInt()));
+      adj[scanner.nextInt()].add(new Pair<>(scanner.nextInt(), scanner.nextInt()));
 
-    int[] ret = new Bellmanford().solve(adj, 0);
+    int[] ret = solve(adj, 0);
     System.out.println(ret[2]);
   }
 
-  private int[] solve(final ArrayList<Pair>[] adj, final int start) {
+  public static int[] solve(final ArrayList<Pair<Integer>>[] adj, final int start) {
     int[] upper = new int[adj.length];
     Arrays.fill(upper, Integer.MAX_VALUE);
     upper[start] = 0;
@@ -37,8 +39,8 @@ public class Bellmanford {
       updated = false;
       for (int here = 0; here < adj.length; here++) {
         for (int i = 0; i < adj[here].size(); i++) {
-          int there = adj[here].get(i).num;
-          int cost = adj[here].get(i).cost;
+          int there = adj[here].get(i).getNum();
+          int cost = adj[here].get(i).getCost();
           if (upper[there] > upper[here] + cost) {
             upper[there] = upper[here] + cost;
             updated = true;

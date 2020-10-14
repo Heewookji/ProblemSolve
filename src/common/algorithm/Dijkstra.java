@@ -1,24 +1,12 @@
-package common;
+package common.algorithm;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
-class Pair implements Comparable<Pair> {
-  int num;
-  int cost;
+import domain.Pair;
 
-  public Pair(int num, int cost) {
-    this.num = num;
-    this.cost = cost;
-  }
-
-  @Override
-  public int compareTo(Pair another) {
-    return this.cost - another.cost;
-  }
-}
 
 /**
  * 
@@ -32,44 +20,43 @@ public class Dijkstra {
 
     Scanner scanner = new Scanner(System.in);
     int n = scanner.nextInt();
-    ArrayList<Pair>[] adj = new ArrayList[n];
+    ArrayList<Pair<Integer>>[] adj = new ArrayList[n];
     for (int i = 0; i < adj.length; i++)
-      adj[i] = new ArrayList<Pair>();
+      adj[i] = new ArrayList<Pair<Integer>>();
     int[] dist = new int[n];
     Arrays.fill(dist, Integer.MAX_VALUE);
     int linkN = scanner.nextInt();
     for (int j = 0; j < linkN; j++)
-      adj[scanner.nextInt()].add(new Pair(scanner.nextInt(), scanner.nextInt()));
+      adj[scanner.nextInt()].add(new Pair<>(scanner.nextInt(), scanner.nextInt()));
 
-    new Dijkstra().doWithoutQueue(0, adj, dist);
+    doWithoutQueue(0, adj, dist);
     System.out.println(dist[2]);
   }
 
-  private void doWithQueue(int start, ArrayList<Pair>[] adj, int[] dist) {
-    PriorityQueue<Pair> pQueue = new PriorityQueue<>();
-    pQueue.offer(new Pair(start, 0));
+  public static void doWithQueue(int start, ArrayList<Pair<Integer>>[] adj, int[] dist) {
+    PriorityQueue<Pair<Integer>> pQueue = new PriorityQueue<>();
+    pQueue.offer(new Pair<>(start, 0));
     dist[start] = 0;
 
     while (!pQueue.isEmpty()) {
-      int here = pQueue.peek().num;
-      int nowTotalCost = pQueue.peek().cost;
+      int here = pQueue.peek().getNum();
+      int nowTotalCost = pQueue.peek().getCost();
       pQueue.poll();
       if (dist[here] < nowTotalCost)
         continue;
 
       for (int i = 0; i < adj[here].size(); i++) {
-        int there = adj[here].get(i).num;
-        int nextTotalCost = nowTotalCost + adj[here].get(i).cost;
+        int there = adj[here].get(i).getNum();
+        int nextTotalCost = nowTotalCost + adj[here].get(i).getCost();
         if (dist[there] > nextTotalCost) {
           dist[there] = nextTotalCost;
-          pQueue.offer(new Pair(there, nextTotalCost));
+          pQueue.offer(new Pair<>(there, nextTotalCost));
         }
       }
-
     }
   }
 
-  private void doWithoutQueue(int start, ArrayList<Pair>[] adj, int[] dist) {
+  public static void doWithoutQueue(int start, ArrayList<Pair<Integer>>[] adj, int[] dist) {
 
     boolean[] visited = new boolean[dist.length];
     int here = -1;
@@ -87,10 +74,10 @@ public class Dijkstra {
         break;
       visited[here] = true;
       for (int i = 0; i < adj[here].size(); i++) {
-        int there = adj[here].get(i).num;
+        int there = adj[here].get(i).getNum();
         if (visited[there])
           continue;
-        int cost = adj[here].get(i).cost;
+        int cost = adj[here].get(i).getCost();
         dist[there] = Math.min(dist[there], cost + dist[here]);
       }
     }

@@ -4,25 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-class WormHole {
-
-  private int num;
-  private int cost;
-
-  public WormHole(int num, int cost) {
-    this.cost = cost;
-    this.num = num;
-  }
-
-  public int getCost() {
-    return cost;
-  }
-
-  public int getNum() {
-    return num;
-  }
-
-}
+import common.algorithm.Floyd;
+import domain.Pair;
 
 public class Main {
 
@@ -37,29 +20,40 @@ public class Main {
     for (int i = 0; i < caseN; i++) {
       int n = scanner.nextInt();
       int w = scanner.nextInt();
-      ArrayList<WormHole>[] adj = new ArrayList[n];
+      ArrayList<Pair<Integer>>[] adj = new ArrayList[n];
+      int[][] adjForFloyd = new int[n][n];
       for (int j = 0; j < n; j++)
         adj[j] = new ArrayList<>();
-      for (int j = 0; j < w; j++)
-        adj[scanner.nextInt()].add(new WormHole(scanner.nextInt(), scanner.nextInt()));
+      for (int j = 0; j < w; j++) {
+        int here = scanner.nextInt();
+        int there = scanner.nextInt();
+        int cost = scanner.nextInt();
+        adj[here].add(new Pair<>(there, cost));
+        adjForFloyd[here][there] = cost;
+      }
       int[] upper = new int[n];
       int[] lower = new int[n];
       Arrays.fill(upper, MAX);
-      Arrays.fill(lower, MIN);
-      boolean[][] reachable = new boolean[n][n];
+      Arrays.fill(lower, MAX);
+      Floyd.solution3(adjForFloyd, n);
 
-      int ret1 = solve(0, 1, adj, upper, reachable);
-      int ret2 = solve2(0, 1, adj, lower, reachable);
+      int ret1 = solve(0, 1, adj, upper, adjForFloyd);
+
+      for (int j = 0; j < n; j++)
+        for (Pair<Integer> hole : adj[j])
+          hole.setCost(-hole.getCost());
+
+      int ret2 = solve(0, 1, adj, lower, adjForFloyd);
 
       if (ret1 == MAX)
         System.out.println("UNREACHABLE");
       else
-        System.out.println((ret1 == MIN ? "INFINITY" : ret1) + " " + (ret2 == MAX ? "INFINITY" : ret2));
+        System.out.println((ret1 == MIN ? "INFINITY" : ret1) + " " + (ret2 == MIN ? "INFINITY" : -ret2));
     }
   }
 
-  private static int solve(final int start, final int target, final ArrayList<WormHole>[] adj, int[] upper,
-      boolean[][] reachable) {
+  private static int solve(final int start, final int target, final ArrayList<Pair<Integer>>[] adj, int[] upper,
+      int[][] reachable) {
     upper[start] = 0;
     for (int iter = 0; iter < adj.length; iter++)
       for (int here = 0; here < adj.length; here++)
@@ -73,35 +67,12 @@ public class Main {
         int there = adj[here].get(i).getNum();
         int cost = adj[here].get(i).getCost();
         if (upper[there] > upper[here] + cost) {
-          if (reachable[start][here] && reachable[here][target])
+          if (reachable[start][here] < Floyd.MAX && reachable[here][target] < Floyd.MAX)
             return MIN;
         }
       }
     }
     return upper[target];
-  }
-
-  private static int solve2(final int start, final int target, final ArrayList<WormHole>[] adj, int[] lower,
-      boolean[][] reachable) {
-    lower[start] = 0;
-    for (int iter = 0; iter < adj.length; iter++)
-      for (int here = 0; here < adj.length; here++)
-        for (int i = 0; i < adj[here].size(); i++) {
-          int there = adj[here].get(i).getNum();
-          int cost = adj[here].get(i).getCost();
-          lower[there] = Math.max(lower[there], lower[here] + cost);
-        }
-    for (int here = 0; here < adj.length; here++) {
-      for (int i = 0; i < adj[here].size(); i++) {
-        int there = adj[here].get(i).getNum();
-        int cost = adj[here].get(i).getCost();
-        if (lower[there] < lower[here] + cost) {
-          if (reachable[start][here] && reachable[here][target])
-            return MAX;
-        }
-      }
-    }
-    return lower[target];
   }
 
 }

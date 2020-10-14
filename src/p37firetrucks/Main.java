@@ -5,30 +5,8 @@ import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
-class Pair implements Comparable<Pair> {
+import domain.Pair;
 
-  private int num;
-  private int cost;
-
-  public Pair(int num, int cost) {
-    this.num = num;
-    this.cost = cost;
-  }
-
-  public int getCost() {
-    return cost;
-  }
-
-  public int getNum() {
-    return num;
-  }
-
-  @Override
-  public int compareTo(Pair another) {
-    return this.cost - another.cost;
-  }
-
-}
 
 public class Main {
 
@@ -44,7 +22,7 @@ public class Main {
       int linkN = scanner.nextInt();
       int fireN = scanner.nextInt();
       int stationN = scanner.nextInt();
-      ArrayList<Pair>[] adj = new ArrayList[spaceN + 1];
+      ArrayList<Pair<Integer>>[] adj = new ArrayList[spaceN + 1];
       for (int j = 0; j < adj.length; j++)
         adj[j] = new ArrayList<>();
       int[] fireArr = new int[fireN];
@@ -54,14 +32,14 @@ public class Main {
         int one = scanner.nextInt();
         int another = scanner.nextInt();
         int cost = scanner.nextInt();
-        adj[one].add(new Pair(another, cost));
-        adj[another].add(new Pair(one, cost));
+        adj[one].add(new Pair<>(another, cost));
+        adj[another].add(new Pair<>(one, cost));
       }
       for (int j = 0; j < fireN; j++)
         fireArr[j] = scanner.nextInt();
       for (int j = 0; j < stationN; j++) {
         stationArr[j] = scanner.nextInt();
-        adj[0].add(new Pair(stationArr[j], 0));
+        adj[0].add(new Pair<>(stationArr[j], 0));
       }
       int ret = 0;
       int[] dist = dijikstra(0, adj);
@@ -72,12 +50,12 @@ public class Main {
 
   }
 
-  private static int[] dijikstra(int start, final ArrayList<Pair>[] adj) {
+  private static int[] dijikstra(int start, final ArrayList<Pair<Integer>>[] adj) {
     int[] dist = new int[adj.length];
-    PriorityQueue<Pair> pQueue = new PriorityQueue<>();
+    PriorityQueue<Pair<Integer>> pQueue = new PriorityQueue<>();
     Arrays.fill(dist, MAX);
     dist[start] = 0;
-    pQueue.add(new Pair(start, 0));
+    pQueue.add(new Pair<>(start, 0));
 
     while (!pQueue.isEmpty()) {
       int here = pQueue.peek().getNum();
@@ -90,7 +68,7 @@ public class Main {
         int nextCost = cost + adj[here].get(i).getCost();
         if (nextCost < dist[there]) {
           dist[there] = nextCost;
-          pQueue.add(new Pair(there, nextCost));
+          pQueue.add(new Pair<>(there, nextCost));
         }
       }
     }
