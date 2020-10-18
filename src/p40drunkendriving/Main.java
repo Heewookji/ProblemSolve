@@ -23,7 +23,6 @@ public class Main {
     int[][] adj = new int[V + 1][V + 1];
     int[][] w = new int[V + 1][V + 1];
     st = new StringTokenizer(br.readLine());
-    
     inspect.add(new Pair<>(0, MAX));
     for (int i = 1; i < V + 1; i++) {
       inspect.add(new Pair<>(i, Integer.parseInt(st.nextToken())));
@@ -38,6 +37,7 @@ public class Main {
       adj[here][there] = delay;
       adj[there][here] = delay;
     }
+
     floyd(adj, w, inspect, V);
 
     st = new StringTokenizer(br.readLine());
@@ -63,7 +63,7 @@ public class Main {
           w[i][j] = adj[i][j];
 
     for (int z = 0; z < V; z++) {
-      // 가장 적은 소요시간 정점
+      // 가장 적은 소요시간 정점부터
       int k = inspect.get(z).getNum();
       int delay = inspect.get(z).getCost();
       for (int i = 1; i < V + 1; i++)
