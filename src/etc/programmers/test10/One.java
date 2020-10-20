@@ -1,8 +1,8 @@
 package etc.programmers.test10;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Stack;
+import java.util.LinkedList;
+import java.util.Queue;
 
 class One {
   public int solution(int n) {
@@ -21,17 +21,15 @@ class One {
   }
 
   public int solution2(int n) {
-    int ret = 0;
-    Stack<Integer> stack = new Stack<>();
+    Queue<Integer> q = new LinkedList<>();
     while (n != 0) {
-      stack.add(n % 3);
+      q.add(n % 3);
       n /= 3;
     }
-    Collections.reverse(stack);
-    while (!stack.isEmpty()) {
-      ret *= 3;
-      ret += stack.pop();
+    while (!q.isEmpty()) {
+      n *= 3;
+      n += q.poll();
     }
-    return ret;
+    return n;
   }
 }
