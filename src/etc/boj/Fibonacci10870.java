@@ -7,15 +7,13 @@ public class Fibonacci10870 {
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
     int n = sc.nextInt();
-    if(n < 1) {
-      System.out.println(n);
-      return;
-    }
-    int[] list = new int[n + 1];
-    list[0] = 0;
-    list[1] = 1;
-    for (int i = 2; i < list.length; i++)
-      list[i] = list[i - 1] + list[i - 2];
-    System.out.println(list[n]);
+    tailRecursive(n, 1, 0);
+  }
+
+  private static void tailRecursive(int n, int pre1, int pre2) {
+    if (n < 2)
+      System.out.println(n * pre1);
+    else
+      tailRecursive(n - 1, pre1 + pre2, pre1);
   }
 }
