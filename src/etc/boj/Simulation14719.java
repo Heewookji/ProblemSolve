@@ -8,16 +8,23 @@ class Simulation14719 {
     Scanner sc = new Scanner(System.in);
     int H = sc.nextInt();
     int W = sc.nextInt();
-    boolean[][] board = new boolean[W][H];
+    boolean[][] arr = new boolean[W][H];
     for (int i = 0; i < W; i++) {
       int h = sc.nextInt();
       for (int j = 0; j < h; j++)
-        board[i][j] = true;
+        arr[i][j] = true;
     }
-    for (int j = H - 1; j >= 0; j--) {
-      for (int i = 0; i < W; i++)
-        System.out.print(board[i][j] ? "1" : "0");
-      System.out.println();
+    int sum = 0;
+    for (int j = 0; j < H; j++) {
+      int pastI = -1;
+      for (int i = 0; i < W; i++) {
+        if (arr[i][j]) {
+          if (pastI != -1)
+            sum += i - pastI - 1;
+          pastI = i;
+        }
+      }
     }
+    System.out.println(sum);
   }
 }
